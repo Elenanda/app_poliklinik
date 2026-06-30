@@ -25,21 +25,22 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route Khusus Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     // Menambahkan resource route untuk Poli&dokter
     Route::resource('polis', PoliController::class);
     Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('obat', ObatController::class);
+
+    // Manajemen Stok Manual
+    Route::post('obat/{obat}/tambah-stok', [ObatController::class, 'tambahStok'])->name('obat.tambah-stok');
+    Route::post('obat/{obat}/kurang-stok',  [ObatController::class, 'kurangStok'])->name('obat.kurang-stok');
+
 });
 
 // Route Khusus Dokter
 Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dokter.dashboard');
-    })->name('dokter.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Dokter\DashboardController::class, 'index'])->name('dokter.dashboard');
     Route::resource('jadwal-periksa', JadwalPeriksaController::class);
 
     Route::get('/periksa-pasien', [PeriksaPasienController::class, 'index'])->name('periksa-pasien.index');
@@ -52,9 +53,7 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
 
 // Route Khusus Pasien
 Route::middleware(['auth', 'role:pasien'])->prefix('pasien')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pasien.dashboard');
-    })->name('pasien.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Pasien\DashboardController::class, 'index'])->name('pasien.dashboard');
     Route::get('/daftar', [PasienPoliController::class, 'get'])->name('pasien.daftar');
     Route::post('/daftar', [PasienPoliController::class, 'submit'])->name('pasien.daftar.submit');
 });

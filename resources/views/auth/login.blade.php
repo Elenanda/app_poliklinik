@@ -5,8 +5,8 @@
 
             {{-- Logo & Title --}}
             <div class="text-center mb-8">
-                <img src="{{ asset('images/logo-bengkot.png') }}"
-                    class="w-[60px] h-[60px] rounded-[16px] object-cover mx-auto mb-[14px] block">
+                <img src="{{ asset('images/logo.png') }}"
+                    class="w-[60px] h-[60px] rounded-[16px] object-cover mx-auto mb-[14px] block bg-white">
 
                 <h1 class="text-[1.5rem] font-extrabold text-[#1e2d6b] m-0 mb-[6px]">
                     Poliklinik
